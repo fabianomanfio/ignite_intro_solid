@@ -12,7 +12,6 @@ describe("User model", () => {
       created_at: new Date(),
       updated_at: new Date(),
     });
-
     expect(user).toMatchObject({
       name: "Atlas",
       email: "atlas@fromspace.com",
