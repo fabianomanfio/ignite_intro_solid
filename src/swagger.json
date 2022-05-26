@@ -1,0 +1,353 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Desafio Ignite - Documentando com Swagger",
+    "description": "This is a API for challenge Ignite that I had to document with the Swagger ",
+    "version": "1.0.0",
+    "contact": {
+      "email": "desafio@gmail.com.br"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a User",
+        "description": "Create a new User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Joãozinho da Silva",
+                  "email": "joaozinho@email.com.br"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean",
+                      "enum": [
+                        ""
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": false,
+                    "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                    "name": "Joaozinho da Silva",
+                    "email": "joaozinho@gmail.com.br",
+                    "created_at": "2022-05-24T22:30:10.992Z",
+                    "updated_at": "2022-05-24T22:30:10.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User e-mail already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User e-mail: joaozinho@email.com.br already exists."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all Users",
+        "description": "List all Users",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "description": "User has to be admin.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": false,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                      "name": "Joaozinho da Silva",
+                      "email": "joaozinho@gmail.com.br",
+                      "created_at": "2022-05-24T22:30:10.992Z",
+                      "updated_at": "2022-05-24T22:30:10.992Z"
+                    },
+                    {
+                      "admin": true,
+                      "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                      "name": "Joaozinho Real da Silva",
+                      "email": "joaozinho.real@gmail.com.br",
+                      "created_at": "2022-05-24T22:30:10.992Z",
+                      "updated_at": "2022-05-24T22:30:10.992Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not allowed or not find.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "error": "User does not exist."
+                    },
+                    {
+                      "error": "User is not a admin."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user profile by ID",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": false,
+                    "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                    "name": "Joaozinho da Silva",
+                    "email": "joaozinho@gmail.com.br",
+                    "created_at": "2022-05-24T22:30:10.992Z",
+                    "updated_at": "2022-05-24T22:30:10.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User does not exist!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User does not exist!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Turn an user as admin.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses":{
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": true,
+                    "id": "a32d8169-56ef-4d48-a2c1-a595ff748116",
+                    "name": "Joaozinho Real da Silva",
+                    "email": "joaozinho.real@gmail.com.br",
+                    "created_at": "2022-05-24T22:30:10.992Z",
+                    "updated_at": "2022-05-24T22:30:10.992Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User does not exist!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
